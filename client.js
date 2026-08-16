@@ -23,8 +23,10 @@ window.__ModuleLoader__.load({
     var useSyncExternalStore = react.useSyncExternalStore
 
     var CSS = '.mdp-panel{position:fixed;display:flex;flex-direction:column;background:var(--bg-elevated,#ffffff);border:1px solid var(--border,#d0d7de);border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.25);z-index:999;overflow:hidden;font-size:13px;color:var(--text,#1f2328)}' +
-      // dock：无阴影/无圆角/无边框，背景与 shell 一致，顶部与对话内容区对齐
-      '.mdp-panel.mdp-dock{position:fixed;left:auto;right:0;top:0;bottom:0;border-radius:0;border:none;box-shadow:none;background:var(--dsw-alias-bg-base,var(--bg,#ffffff));z-index:40;border-left:1px solid var(--dsw-alias-border-l2,var(--border,#d0d7de))}' +
+      // dock：无阴影/无圆角，背景与 shell 一致。顶部横线与左侧标签栏底边对齐
+      // （左侧对话区在该水平有分隔线，面板必须有同一条线），左缘与对话区分界
+      '.mdp-panel.mdp-dock{position:fixed;left:auto;right:0;top:0;bottom:0;border-radius:0;border:none;box-shadow:none;background:var(--dsw-alias-bg-base,var(--bg,#ffffff));z-index:40;border-top:1px solid var(--dsw-alias-border-l2,var(--border,#d0d7de));border-left:1px solid var(--dsw-alias-border-l2,var(--border,#d0d7de))}' +
+      '.mdp-head.mdp-head-dock{cursor:default;background:transparent;padding:12px 16px 10px;border-bottom:1px solid var(--dsw-alias-border-l1,var(--border,#d0d7de))}' +
       '.mdp-dock-handle{position:absolute;left:-2px;top:0;bottom:0;width:9px;cursor:col-resize;z-index:3;transition:background .12s}' +
       '.mdp-dock-handle::after{content:"";position:absolute;left:3px;top:0;bottom:0;width:2px;background:var(--dsw-alias-border-l2,var(--border,#d0d7de));opacity:.7}' +
       '.mdp-dock-handle:hover::after{background:var(--dsw-alias-accent-solid,var(--accent,#0969da));opacity:.9;width:3px}' +
