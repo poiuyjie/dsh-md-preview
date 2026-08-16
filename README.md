@@ -2,7 +2,11 @@
 
 # dsh-md-preview
 
+[**中文**](https://github.com/poiuyjie/dsh-md-preview) ｜ [English](README.en.md)
+
 *DeepSeek Harness 的 Markdown 预览插件*
+
+*点击上方链接切换语言 · Click the links above to switch languages*
 
 </div>
 

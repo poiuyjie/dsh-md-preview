@@ -21,6 +21,7 @@
     "index.js",
     "client.js",
     "README.md",
+    "README.en.md",
     "LICENSE"
   ],
   "exports": {
