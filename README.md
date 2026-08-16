@@ -48,25 +48,35 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 
 ## 安装
 
-在你的 DSH web profile 中添加依赖（以 Ubuntu 的 `~/.dsh/profiles/web` 为例）：
+### 方式一：本地克隆（推荐，便于改代码和跟随更新）
+
+从 GitHub 克隆到本地（以 `~/plugins` 为例）：
+
+```bash
+mkdir -p ~/plugins && cd ~/plugins
+git clone https://github.com/poiuyjie/dsh-md-preview.git
+cd dsh-md-preview
+```
+
+然后在你的 DSH web profile 中引用本地路径（Ubuntu 为 `~/.dsh/profiles/web`）：
+
+```bash
+cd ~/.dsh/profiles/web
+npm pkg set "dependencies.dsh-md-preview=file:~/plugins/dsh-md-preview"
+npm install
+```
+
+### 方式二：直接引用 GitHub（不克隆，省事）
 
 ```bash
 cd ~/.dsh/profiles/web
 npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
-npx dsh plugin --profile web add dsh-md-preview@github:poiuyjie/dsh-md-preview
+npm install
 ```
 
-或者直接在 `package.json` 中加入：
+### 启用插件（两种方式都要做）
 
-```json
-{
-  "dependencies": {
-    "dsh-md-preview": "github:poiuyjie/dsh-md-preview"
-  }
-}
-```
-
-然后在 `cordis.patch.yml` 中启用：
+在 profile 的 `cordis.patch.yml` 中启用：
 
 ```yaml
 - insert:
@@ -76,15 +86,19 @@ npx dsh plugin --profile web add dsh-md-preview@github:poiuyjie/dsh-md-preview
 
 重启 `dsh web`，刷新页面即可在会话头部看到「MD 预览」按钮。
 
+> 提示：方式一克隆到本地后，`git pull` 即可跟随更新；插件本体是纯 JS、无构建步骤，改完代码刷新页面即生效（client 半边支持 HMR）。
+
 ## 卸载
 
 在 profile 目录（Ubuntu 为 `~/.dsh/profiles/web`）执行：
 
 ```bash
 cd ~/.dsh/profiles/web
-npx dsh plugin --profile web remove dsh-md-preview
 npm pkg delete dependencies.dsh-md-preview
+npm install
 ```
+
+（方式一本地克隆安装的，依赖会自动解除；想彻底删掉再执行 `rm -rf ~/plugins/dsh-md-preview`。）
 
 然后从 `cordis.patch.yml` 中删除对应的 insert 条目：
 
