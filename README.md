@@ -14,6 +14,22 @@
 
 DeepSeek Harness（DSH）插件：在会话头部加一个「MD 预览」入口，自动跟踪本会话读写/打开过的 `.md` 文件，点击对话中的 md 引用时**在右侧栏并排打开预览**，而不是跳转到系统编辑器（如 VSCode）。
 
+## 与 dsh-vision-opencode 协同
+
+本插件与 [**dsh-vision-opencode**](https://github.com/poiuyjie/dsh-vision-opencode) 配合使用，效果成倍提升——它也是在这个视觉插件的能力基础上开发完善起来的：
+
+- **视觉驱动的工作流闭环**：`dsh-vision-opencode` 给纯文本主模型补上识图能力（`vision_read_image`），让模型能"看见"渲染出的文档页面；而本插件让你在右侧栏**即时打开并排预览**对应的 `.md` 源文件——先看渲染图，再对照源稿，改稿、验证、记录一气呵成
+- **图文对照**：左侧对话流里是视觉验证结论（"表格 III 渲染干净、无溢出"），右侧预览栏里就是对应的 Markdown 源稿，边看边改
+- **适合文档 / 论文工作流**：LaTeX 编译检查、排版 QA、版本修订记录等场景下，视觉确认 + 源稿预览双栏并排，效果大大提高
+
+两个插件搭配安装：
+
+```bash
+cd ~/.dsh/profiles/web
+npm pkg set "dependencies.dsh-vision-opencode=github:poiuyjie/dsh-vision-opencode"
+npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
+```
+
 ## 功能
 
 - **右侧并排预览**：点击对话中的 `.md` 文件引用（产物芯片 / 行内引用 / 工具卡片路径），在右侧栏打开预览，与对话内容顶部对齐、宽度可拖（支持拖到屏幕中间），布局自动让位、不遮挡对话

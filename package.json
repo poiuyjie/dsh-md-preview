@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "type": "module",
   "main": "index.js",
-  "description": "DeepSeek Harness plugin: dockable Markdown preview panel that opens side-by-side with the conversation, tracks recently accessed .md files per session, and intercepts in-chat .md references so they preview instead of launching the system editor.",
+  "description": "DeepSeek Harness plugin: dockable Markdown preview panel that opens side-by-side with the conversation, tracks recently accessed .md files per session, and intercepts in-chat .md references so they preview instead of launching the system editor. Built on top of dsh-vision-opencode for a visual-verification + source-preview workflow.",
   "license": "MIT",
   "engines": {
     "node": ">=20.3"
@@ -14,7 +14,8 @@
     "markdown",
     "preview",
     "plugin",
-    "docs"
+    "docs",
+    "vision"
   ],
   "files": [
     "index.js",
