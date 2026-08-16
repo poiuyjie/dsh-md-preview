@@ -1,0 +1,35 @@
+{
+  "name": "dsh-md-preview",
+  "version": "0.2.0",
+  "type": "module",
+  "main": "index.js",
+  "description": "DeepSeek Harness plugin: dockable Markdown preview panel that opens side-by-side with the conversation, tracks recently accessed .md files per session, and intercepts in-chat .md references so they preview instead of launching the system editor.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.3"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "markdown",
+    "preview",
+    "plugin",
+    "docs"
+  ],
+  "files": [
+    "index.js",
+    "client.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web"
+    }
+  }
+}
