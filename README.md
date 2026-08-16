@@ -42,9 +42,13 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 - **完整 Markdown 渲染**：标题 / 列表 / 表格 / 代码块 / 引用 / 行内代码 / 公式片段 / 图片链接
 - **「对话/轨迹」栏页签**：也提供整页「MD 预览」页签
 
+## 系统支持
+
+> ⚠️ **仅在 Ubuntu 上安装测试过**（Ubuntu 24.04 / Bash，DSH `0.1.0-rc.6`）。在 Windows、macOS 或其他 Linux 发行版上安装，需要**自行修改**：安装路径、`~/.dsh` profile 目录、`cordis.patch.yml` 的写法以及包管理命令（npm/pnpm）均可能不同，请按你的环境调整。
+
 ## 安装
 
-在你的 DSH web profile 中添加依赖（以 `~/.dsh/profiles/web` 为例）：
+在你的 DSH web profile 中添加依赖（以 Ubuntu 的 `~/.dsh/profiles/web` 为例）：
 
 ```bash
 cd ~/.dsh/profiles/web
@@ -71,6 +75,27 @@ npx dsh plugin --profile web add dsh-md-preview@github:poiuyjie/dsh-md-preview
 ```
 
 重启 `dsh web`，刷新页面即可在会话头部看到「MD 预览」按钮。
+
+## 卸载
+
+在 profile 目录（Ubuntu 为 `~/.dsh/profiles/web`）执行：
+
+```bash
+cd ~/.dsh/profiles/web
+npx dsh plugin --profile web remove dsh-md-preview
+npm pkg delete dependencies.dsh-md-preview
+```
+
+然后从 `cordis.patch.yml` 中删除对应的 insert 条目：
+
+```yaml
+# 删除这一段：
+- insert:
+    - id: md-preview
+      name: 'dsh-md-preview'
+```
+
+最后重启 `dsh web`。卸载不会删除你的任何 `.md` 文件或会话记录，只移除预览面板功能。
 
 ## 使用
 
