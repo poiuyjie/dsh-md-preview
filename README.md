@@ -44,6 +44,7 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 - **修饰键逃生**：按住 Ctrl/Cmd/Shift 点击 md 引用，仍走系统默认应用打开（VSCode）
 - **手动打开**：输入相对工作目录的 `.md` 路径即可预览
 - **完整 Markdown 渲染**：标题 / 列表 / 表格 / 代码块 / 引用 / 行内代码 / 公式片段 / 图片链接
+- **跟随深浅色主题**：面板、列表、渲染区全部基于 DSH shell 的 `--dsw-alias-*` 设计变量，随 shell 的浅色 / 深色（`body[data-ds-dark-theme]`）自动切换，无需单独设置
 - **「对话/轨迹」栏页签**：也提供整页「MD 预览」页签
 
 ## 系统支持
