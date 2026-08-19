@@ -228,6 +228,16 @@ window.__ModuleLoader__.load({
       flushPara()
       return out.join('\n')
     }
+    // 把渲染结果里的相对路径图片改写为 /md-preview/api/file 端点（按 md 文件所在
+    // 目录解析），否则浏览器会相对页面 URL 解析，导致本地图片 404。
+    function qualifyImgSrcs(html, base) {
+      if (!base) return html
+      var dir = String(base).replace(/[\\/][^\\/]*$/, '')
+      return String(html).replace(/(<img\s+src=")([^"]+?)(")/g, function (_m, pre, src, post) {
+        if (/^(https?:)?\/\//i.test(src) || /^data:/i.test(src) || /^[a-z][a-z0-9+.-]*:/i.test(src) || src.indexOf('/md-preview/api/file') === 0) return _m
+        return pre + '/md-preview/api/file?path=' + encodeURIComponent(dir + '/' + src) + post
+      })
+    }
 
     function apiRead(path, sessionId) {
       var params = new URLSearchParams({ path: String(path) })
@@ -506,7 +516,7 @@ window.__ModuleLoader__.load({
             : selected.error ? createElement('div', { className: 'mdp-error' }, selected.error)
             : createElement('div', {
                 className: 'mdp-render',
-                dangerouslySetInnerHTML: { __html: mdToHtml(selected.text) },
+                dangerouslySetInnerHTML: { __html: qualifyImgSrcs(mdToHtml(selected.text), selected.path) },
               }),
         ),
       )

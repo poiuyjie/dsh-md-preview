@@ -11,12 +11,21 @@
 //                                              成功后把该文件记入「最近」列表
 //      GET /md-preview/api/peek?path=…&sessionId=…   只读文件开头，返回
 //                                              {title, snippet} 供列表卡片预览
+//      GET /md-preview/api/file?path=…&sessionId=…   以二进制读取图片（≤10MB），
+//                                              供预览中相对路径的 <img> 使用
+import { readFile } from 'node:fs/promises'
 export const name = 'md-preview'
 export const inject = ['fs']
 
 const MAX_RECENT = 30
 const MAX_OPS = 5
 const MAX_BYTES = 2 * 1024 * 1024
+const MAX_IMG_BYTES = 10 * 1024 * 1024
+const IMG_MIME = {
+  png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg',
+  gif: 'image/gif', webp: 'image/webp', avif: 'image/avif',
+  bmp: 'image/bmp', ico: 'image/x-icon',
+}
 
 export function apply(ctx) {
   const recent = [] // { path, time, mtime, ops: [{op, time}], sessions: Set<sessionId> }
@@ -295,7 +304,43 @@ export function apply(ctx) {
         },
       })
 
-      return () => { disposeRecent(); disposeRead(); disposePeek() }
+      const disposeFile = wctx.webServer.register({
+        kind: 'exact',
+        path: '/md-preview/api/file',
+        handler: async (req, res) => {
+          if (req.method !== 'GET') { res.writeHead(405); res.end(); return }
+          const url = new URL(req.url ?? '/md-preview/api/file', 'http://127.0.0.1')
+          const path = (url.searchParams.get('path') ?? '').slice(0, 2048)
+          const sessionId = (url.searchParams.get('sessionId') ?? '').trim().slice(0, 256)
+          if (!path) { res.writeHead(400); res.end(); return }
+          try {
+            const { target } = await resolveTarget(path, sessionId)
+            const info = await ctx.fs.stat(target)
+            if (!info) { res.writeHead(404, { 'content-type': 'text/plain' }); res.end('not found'); return }
+            if (typeof info.size === 'number' && info.size > MAX_IMG_BYTES) {
+              res.writeHead(413, { 'content-type': 'text/plain' }); res.end('too large'); return
+            }
+            // 本地后端 displayPath 即本地绝对路径；图片读取走 node:fs（fs 服务只读文本）
+            const disk = String((target && target.displayPath) || path)
+            const ext = (disk.split('.').pop() || '').toLowerCase()
+            const type = IMG_MIME[ext]
+            if (!type) { res.writeHead(415, { 'content-type': 'text/plain' }); res.end('unsupported type'); return }
+            const buf = await readFile(disk)
+            res.writeHead(200, {
+              'content-type': type,
+              'x-content-type-options': 'nosniff',
+              'cache-control': 'private, max-age=3600',
+              'content-length': buf.length,
+            })
+            res.end(buf)
+          } catch (e) {
+            res.writeHead(500, { 'content-type': 'text/plain' })
+            res.end(String(e && e.message ? e.message : e))
+          }
+        },
+      })
+
+      return () => { disposeRecent(); disposeRead(); disposePeek(); disposeFile() }
     })
   })
 }
