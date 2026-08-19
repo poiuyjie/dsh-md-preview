@@ -11,6 +11,7 @@
   "keywords": [
     "deepseek-harness",
     "dsh",
+    "dsh-plugin",
     "markdown",
     "preview",
     "plugin",
@@ -20,6 +21,7 @@
   "files": [
     "index.js",
     "client.js",
+    "cordis.patch.yml",
     "README.md",
     "README.en.md",
     "LICENSE"
@@ -30,6 +32,9 @@
     "./package.json": "./package.json"
   },
   "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "platform": "web"
     }

@@ -53,6 +53,14 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 
 ## 安装
 
+### 方式零：dsh plugin add（原生，推荐）
+
+仓库已声明 `dsh.bundle` manifest 并自带 `cordis.patch.yml`，可以直接用 DSH 原生插件命令安装（会自动把插件加入 profile bundle 层并应用其补丁，无需手动改 `cordis.patch.yml`）：
+
+```bash
+dsh plugin --profile web add poiuyjie/dsh-md-preview
+```
+
 ### 方式一：本地克隆（推荐，便于改代码和跟随更新）
 
 从 GitHub 克隆到本地（以 `~/plugins` 为例）：
@@ -79,7 +87,7 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 npm install
 ```
 
-### 启用插件（两种方式都要做）
+### 手动启用插件（仅方式一 / 方式二需要；方式零 `dsh plugin add` 会自动完成）
 
 在 profile 的 `cordis.patch.yml` 中启用：
 

@@ -48,6 +48,14 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 
 ## Installation
 
+### Option 0: dsh plugin add (native, recommended)
+
+The package declares a `dsh.bundle` manifest and ships its own `cordis.patch.yml`, so it installs with the native plugin command (auto-applied as a profile layer — no manual `cordis.patch.yml` edits needed):
+
+```bash
+dsh plugin --profile web add poiuyjie/dsh-md-preview
+```
+
 ### Option 1: Clone locally (recommended — easy to edit and to follow updates)
 
 Clone from GitHub (example: `~/plugins`):
@@ -74,7 +82,7 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 npm install
 ```
 
-### Enable the plugin (required for both options)
+### Enable the plugin manually (Option 1 / Option 2 only — `dsh plugin add` does this automatically)
 
 Add an entry to the profile's `cordis.patch.yml`:
 

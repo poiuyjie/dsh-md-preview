@@ -1,0 +1,6 @@
+# dsh-md-preview bundle patch — applied when the package is installed as a
+# profile layer (via `dsh plugin --profile <name> add dsh-md-preview`), or
+# added manually to a profile's own cordis.patch.yml.
+- insert:
+    - id: md-preview
+      name: 'dsh-md-preview'
