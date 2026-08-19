@@ -207,6 +207,21 @@ window.__ModuleLoader__.load({
           out.push('</tbody></table>')
           continue
         }
+        // 裸 HTML 标签行：<img> 真正渲染成图片（src 过滤危险协议），
+        // 其余开/闭标签（<div>/</p>/<br> 等）直接忽略，不再当纯文本显示
+        if (/^\s*<img\s+([^>]*)>\s*$/i.test(line)) {
+          flushPara()
+          var imgAttr = line.match(/^\s*<img\s+([^>]*)>\s*$/i)[1]
+          var srcM = /(?:^|\s)src\s*=\s*["']?([^"'\s>]+)/i.exec(imgAttr)
+          var altM = /(?:^|\s)alt\s*=\s*["']?([^"'\s>]+)/i.exec(imgAttr)
+          var src = srcM ? srcM[1] : ''
+          if (src && !/^(javascript|data|vbscript):/i.test(src)) {
+            out.push('<img src="' + esc(src) + '" alt="' + esc(altM ? altM[1] : '') + '">')
+          }
+          i++
+          continue
+        }
+        if (/^\s*<\/?[a-zA-Z][^>]*>\s*$/.test(line)) { i++; continue }
         para.push(line)
         i++
       }
