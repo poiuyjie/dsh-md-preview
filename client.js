@@ -1,4 +1,8 @@
-// dsh-md-preview: DeepSeek Harness 插件（Client 半边）v0.5。
+// dsh-md-preview: DeepSeek Harness 插件（Client 半边）v0.6。
+//
+// v0.6：修复渲染空白间距——<ul>/<ol> 不再使用与面板列表容器冲突的
+//       class="mdp-list"（消除 min-height:200px 造成的多余空白）；
+//       连续 blockquote 行合并为单个块；pre 外边距收敛为 8px。
 //
 // v0.5：面板/列表/渲染全部改用 shell 的 --dsw-alias-* 设计变量，
 //       支持跟随 DSH 深浅色主题切换（此前硬编码浅色回退，暗色下仍显白色）。
