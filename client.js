@@ -1,4 +1,8 @@
-// dsh-md-preview: DeepSeek Harness 插件（Client 半边）v0.6。
+// dsh-md-preview: DeepSeek Harness 插件（Client 半边）v0.7。
+//
+// v0.7：支持预览本地图片——渲染后把相对/绝对路径的 <img> 改写为
+//       /md-preview/api/file 端点（按 md 文件所在目录解析）；裸 HTML 标签
+//       行不再当纯文本显示，<img> 真正渲染成图片。
 //
 // v0.6：修复渲染空白间距——<ul>/<ol> 不再使用与面板列表容器冲突的
 //       class="mdp-list"（消除 min-height:200px 造成的多余空白）；
