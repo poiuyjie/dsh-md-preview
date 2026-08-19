@@ -13,8 +13,10 @@
 > **对话里点开 `.md`，不再跳 VSCode——右侧并排预览，随手可读。**
 
 <p align="center">
-  <img src="assets/demo.png" alt="dsh-md-preview 演示" width="860" />
+  <img src="assets/side-by-side.png" alt="dsh-md-preview 并排预览：左侧对话，右侧实时渲染 Markdown" width="860" />
 </p>
+
+**⚡ 核心体验 —— 与对话并排展示**：左边继续你惯常的对话 / 写稿 / 校对工作流，右边在**同一窗口内并排、实时**渲染你点开的 `.md` 源稿——所见即所写、无需切换窗口；深色 / 浅色主题自动跟随 shell。
 
 DeepSeek Harness（DSH）插件：在会话头部加一个「MD 预览」入口，自动跟踪本会话读写/打开过的 `.md` 文件，点击对话中的 md 引用时**在右侧栏并排打开预览**，而不是跳转到系统编辑器（如 VSCode）。
 

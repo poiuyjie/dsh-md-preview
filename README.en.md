@@ -9,8 +9,10 @@
 > **Click a `.md` in your conversation — no more jumping to VSCode. Open a side-by-side preview on the right and read on.**
 
 <p align="center">
-  <img src="assets/demo.png" alt="dsh-md-preview demo" width="860" />
+  <img src="assets/side-by-side.png" alt="dsh-md-preview side-by-side: conversation on the left, live Markdown rendering on the right" width="860" />
 </p>
+
+**⚡ Core experience — side-by-side with your conversation**: keep chatting, writing and proofreading on the left while the `.md` source you clicked renders **live, side-by-side in the same window** on the right — what you see is what you wrote, no window switching; dark/light theme follows the shell automatically.
 
 A DeepSeek Harness (DSH) plugin that adds an **MD Preview** entry to the session header, tracks the `.md` files your session has read or written, and opens an in-chat `.md` reference **side-by-side in the right panel** instead of launching the system editor (e.g. VSCode).
 
