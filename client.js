@@ -235,6 +235,8 @@ window.__ModuleLoader__.load({
       var dir = String(base).replace(/[\\/][^\\/]*$/, '')
       return String(html).replace(/(<img\s+src=")([^"]+?)(")/g, function (_m, pre, src, post) {
         if (/^(https?:)?\/\//i.test(src) || /^data:/i.test(src) || /^[a-z][a-z0-9+.-]*:/i.test(src) || src.indexOf('/md-preview/api/file') === 0) return _m
+        // 绝对路径图片直接按原样走 file 端点；相对路径基于 md 所在目录解析
+        if (src.charAt(0) === '/') return pre + '/md-preview/api/file?path=' + encodeURIComponent(src) + post
         return pre + '/md-preview/api/file?path=' + encodeURIComponent(dir + '/' + src) + post
       })
     }
