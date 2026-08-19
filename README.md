@@ -134,6 +134,11 @@ ls index.js client.js
 - `index.js`：Host 半边。监听 `fs/observed` 记录 md 文件访问（按会话隔离），提供 `/md-preview/api/{recent,read,peek}` 三个 HTTP 端点
 - `client.js`：Client 半边。面板 UI、点击拦截（document 捕获阶段识别 md 引用按钮）、右侧停靠 + 布局让位
 
+> ⚠️ **pnpm 用户的开发提示**：用 pnpm 安装的 profile 会把 `file:` 本地依赖**快照复制**到
+> `node_modules/.pnpm/`（不是符号链接）。修改 `plugins/md-preview` 源码后，刷新页面不会生效，
+> 需要在 profile 目录重新执行 `pnpm install`（或手动把改过的文件同步进
+> `node_modules/.pnpm/dsh-md-preview@file+plugins+md-preview/node_modules/dsh-md-preview/`）再刷新页面。
+
 ## 许可
 
 [MIT](LICENSE)
