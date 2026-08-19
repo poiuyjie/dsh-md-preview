@@ -91,7 +91,7 @@ window.__ModuleLoader__.load({
       '.mdp-render p{margin:8px 0}' +
       '.mdp-render ul,.mdp-render ol{margin:8px 0;padding-left:22px}.mdp-render li{margin:3px 0}' +
       '.mdp-render code{background:var(--dsw-alias-markdown-inline-code,var(--bg-subtle,#f0f2f4));padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:inherit}' +
-      '.mdp-render pre.mdp-code{background:var(--dsw-alias-markdown-code-block,var(--bg-subtle,#f6f8fa));border:1px solid var(--dsw-alias-border-l2,var(--border,#d0d7de));border-radius:8px;padding:10px 12px;overflow:auto}' +
+      '.mdp-render pre.mdp-code{background:var(--dsw-alias-markdown-code-block,var(--bg-subtle,#f6f8fa));border:1px solid var(--dsw-alias-border-l2,var(--border,#d0d7de));border-radius:8px;padding:10px 12px;margin:8px 0;overflow:auto}' +
       '.mdp-render pre.mdp-code code{background:transparent;padding:0;display:block;font-size:12px}' +
       '.mdp-lang{display:block;font-size:10px;opacity:.6;margin-bottom:4px}' +
       '.mdp-render table.mdp-table{border-collapse:collapse;margin:10px 0;display:block;overflow:auto;max-width:100%}' +
@@ -149,11 +149,26 @@ window.__ModuleLoader__.load({
         if (h) { flushPara(); out.push('<h' + h[1].length + '>' + inline(h[2]) + '</h' + h[1].length + '>'); i++; continue }
         if (/^\s*([-*_])\s*\1\s*\1[\s\1]*$/.test(line)) { flushPara(); out.push('<hr>'); i++; continue }
         var bq = line.match(/^>\s?(.*)$/)
-        if (bq) { flushPara(); out.push('<blockquote>' + inline(bq[1]) + '</blockquote>'); i++; continue }
+        if (bq) {
+          // 连续引用行合并为一个 blockquote（避免每行一个盒子造成的空隙）
+          flushPara()
+          var bqBuf = [inline(bq[1])]
+          i++
+          while (i < lines.length) {
+            var mb = lines[i].match(/^>\s?(.*)$/)
+            if (!mb) break
+            bqBuf.push(inline(mb[1]))
+            i++
+          }
+          out.push('<blockquote>' + bqBuf.join('<br>') + '</blockquote>')
+          continue
+        }
         var ul = line.match(/^\s*[-*+]\s+(.*)$/)
         if (ul) {
           flushPara()
-          out.push('<ul class="mdp-list">')
+          // 注意：不能用 class="mdp-list"——那是面板列表容器的类（min-height:200px 等），
+          // 会污染文档中的 <ul>/<ol> 产生大段空白
+          out.push('<ul>')
           while (i < lines.length && /^\s*[-*+]\s+(.*)$/.test(lines[i])) {
             var m1 = lines[i].match(/^\s*[-*+]\s+(.*)$/)
             out.push('<li>' + inline(m1[1]) + '</li>')
@@ -165,7 +180,7 @@ window.__ModuleLoader__.load({
         var ol = line.match(/^\s*\d+\.\s+(.*)$/)
         if (ol) {
           flushPara()
-          out.push('<ol class="mdp-list">')
+          out.push('<ol>')
           while (i < lines.length && /^\s*\d+\.\s+(.*)$/.test(lines[i])) {
             var m2 = lines[i].match(/^\s*\d+\.\s+(.*)$/)
             out.push('<li>' + inline(m2[1]) + '</li>')
