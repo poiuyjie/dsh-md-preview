@@ -28,13 +28,14 @@ DeepSeek Harness（DSH）插件：在会话头部加一个「MD 预览」入口�
 - **图文对照**：左侧对话流里是视觉验证结论（"表格 III 渲染干净、无溢出"），右侧预览栏里就是对应的 Markdown 源稿，边看边改
 - **适合文档 / 论文工作流**：LaTeX 编译检查、排版 QA、版本修订记录等场景下，视觉确认 + 源稿预览双栏并排，效果大大提高
 
-两个插件搭配安装：
+两个插件搭配安装（推荐用 DSH 原生插件命令，它会从 GitHub 下载源码，并把包登记进 profile 的 `dsh.profile.bundles` 装配层、自动应用各自 `cordis.patch.yml`——只手改 `package.json`（`npm pkg set`）既不会真正下载，也登记不了装配层，装了也不会生效）：
 
 ```bash
-cd ~/.dsh/profiles/web
-npm pkg set "dependencies.dsh-vision-opencode=github:poiuyjie/dsh-vision-opencode"
-npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
+dsh plugin --profile web add github:poiuyjie/dsh-vision-opencode
+dsh plugin --profile web add github:poiuyjie/dsh-md-preview
 ```
+
+> 💡 Windows 下把 `dsh` 换成 `dsh.ps1`（或 `powershell dsh.ps1`），profile 目录为 `%USERPROFILE%\.dsh\profiles\web`。
 
 ## 功能
 
@@ -51,7 +52,7 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 
 ## 系统支持
 
-> ⚠️ **仅在 Ubuntu 上安装测试过**（Ubuntu 24.04 / Bash，DSH `0.1.0-rc.6`）。在 Windows、macOS 或其他 Linux 发行版上安装，需要**自行修改**：安装路径、`~/.dsh` profile 目录、`cordis.patch.yml` 的写法以及包管理命令（npm/pnpm）均可能不同，请按你的环境调整。
+> ⚠️ 主推 `dsh plugin` 原生安装（Linux/macOS 用 `dsh`，Windows 用 `dsh.ps1`）。手动方式（克隆 + `npm install` + 改 `cordis.patch.yml`）在 Ubuntu（DSH `0.1.0-rc.6`）与 Windows 上验证过；其他发行版上安装路径、`~/.dsh` profile 目录、`cordis.patch.yml` 写法可能不同，请按你的环境调整。
 
 ## 安装
 
@@ -60,8 +61,10 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 仓库已声明 `dsh.bundle` manifest 并自带 `cordis.patch.yml`，可以直接用 DSH 原生插件命令安装（会自动把插件加入 profile bundle 层并应用其补丁，无需手动改 `cordis.patch.yml`）：
 
 ```bash
-dsh plugin --profile web add poiuyjie/dsh-md-preview
+dsh plugin --profile web add github:poiuyjie/dsh-md-preview
 ```
+
+> ⚠️ **不要**用 `npm pkg set "dependencies.xxx=..."` 代替：它只改 `package.json` 的一个字段，既不下载包，也不会把它登记进 `dsh.profile.bundles` 装配层，装了 dsh web 也扫描不到。`dsh plugin add` 才会完成「下载 + 登记装配层（自动应用 cordis.patch.yml）」。
 
 ### 方式一：本地克隆（推荐，便于改代码和跟随更新）
 

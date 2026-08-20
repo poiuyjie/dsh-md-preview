@@ -24,13 +24,14 @@ This plugin pairs with [**dsh-vision-opencode**](https://github.com/poiuyjie/dsh
 - **Image-to-source comparison**: the left conversation stream holds the visual verdicts ("Table III renders cleanly, no overflow"), while the right panel holds the Markdown source — review and edit side by side
 - **Great for document / paper workflows**: LaTeX build checks, layout QA, revision records — visual confirmation plus source preview in split view
 
-Install them together:
+Install them together (prefer the native DSH plugin commands: they download the sources from GitHub, register the packages into the profile's `dsh.profile.bundles` layer and apply each `cordis.patch.yml` automatically — hand-editing `package.json` with `npm pkg set` neither downloads anything nor registers the layer, so the plugin won't take effect):
 
 ```bash
-cd ~/.dsh/profiles/web
-npm pkg set "dependencies.dsh-vision-opencode=github:poiuyjie/dsh-vision-opencode"
-npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
+dsh plugin --profile web add github:poiuyjie/dsh-vision-opencode
+dsh plugin --profile web add github:poiuyjie/dsh-md-preview
 ```
+
+> 💡 On Windows use `dsh.ps1` instead of `dsh` (or `powershell dsh.ps1`); the profile directory is `%USERPROFILE%\.dsh\profiles\web`.
 
 ## Features
 
@@ -46,7 +47,7 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 
 ## System support
 
-> ⚠️ **Tested on Ubuntu only** (Ubuntu 24.04 / Bash, DSH `0.1.0-rc.6`). On Windows, macOS, or other Linux distros you will need to **adjust things yourself**: install paths, the `~/.dsh` profile directory, the `cordis.patch.yml` syntax, and the package-manager commands (npm/pnpm) may all differ — adapt to your environment.
+> ⚠️ Prefer the native `dsh plugin` install (`dsh` on Linux/macOS, `dsh.ps1` on Windows). The manual route (clone + `npm install` + edit `cordis.patch.yml`) has been verified on Ubuntu (DSH `0.1.0-rc.6`) and Windows; on other distros the install paths, the `~/.dsh` profile directory, and the `cordis.patch.yml` syntax may differ — adapt to your environment.
 
 ## Installation
 
@@ -55,8 +56,10 @@ npm pkg set "dependencies.dsh-md-preview=github:poiuyjie/dsh-md-preview"
 The package declares a `dsh.bundle` manifest and ships its own `cordis.patch.yml`, so it installs with the native plugin command (auto-applied as a profile layer — no manual `cordis.patch.yml` edits needed):
 
 ```bash
-dsh plugin --profile web add poiuyjie/dsh-md-preview
+dsh plugin --profile web add github:poiuyjie/dsh-md-preview
 ```
+
+> ⚠️ Don't substitute `npm pkg set "dependencies.xxx=..."`: it only edits one field of `package.json` — it neither downloads the package nor registers it into the `dsh.profile.bundles` layer, so `dsh web` won't pick it up. `dsh plugin add` does both (download + register the layer, applying `cordis.patch.yml` for you).
 
 ### Option 1: Clone locally (recommended — easy to edit and to follow updates)
 

@@ -5,6 +5,14 @@
   "main": "index.js",
   "description": "DeepSeek Harness plugin: dockable Markdown preview panel that opens side-by-side with the conversation, tracks recently accessed .md files per session, and intercepts in-chat .md references so they preview instead of launching the system editor. Built on top of dsh-vision-opencode for a visual-verification + source-preview workflow.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poiuyjie/dsh-md-preview.git"
+  },
+  "homepage": "https://github.com/poiuyjie/dsh-md-preview#readme",
+  "bugs": {
+    "url": "https://github.com/poiuyjie/dsh-md-preview/issues"
+  },
   "engines": {
     "node": ">=20.3"
   },
